@@ -1,0 +1,6 @@
+.header__button-menu_opened {
+    background: url(../../../../images/header-button-menu-close.svg);
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}

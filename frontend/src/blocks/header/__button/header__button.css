@@ -1,0 +1,13 @@
+.header__button {
+    max-width: 56px;
+    padding: 0;
+    font-family: 'inter', 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #A9A9A9;
+    cursor: pointer;
+    border: unset;
+    background: unset;
+}

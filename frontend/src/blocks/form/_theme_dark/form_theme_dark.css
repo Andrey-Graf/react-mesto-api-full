@@ -1,0 +1,7 @@
+.form_theme_dark {
+    margin: 0 auto;
+    padding: 60px 0 80px 0;
+    background: unset;
+    display: flex;
+    flex-direction: column;
+}

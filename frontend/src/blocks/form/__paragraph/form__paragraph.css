@@ -1,0 +1,10 @@
+.form__paragraph {
+    max-width: 358px;
+    font-family: 'inter', 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFF;
+}

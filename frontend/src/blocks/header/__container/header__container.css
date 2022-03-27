@@ -1,0 +1,16 @@
+.header__container {
+    display: none;
+    margin: 0, auto;
+    padding: 3px 0 31px 0;
+    text-align: center;
+}
+
+@media screen and (min-width: 767px) {
+    .header__container {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}

@@ -1,0 +1,23 @@
+.header__navLink {
+    max-width: 114px;
+    font-family: 'inter', 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    text-decoration: unset;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.header__navLink:hover {
+    opacity: .6;
+}
+
+@media screen and (max-width: 767px) {
+    .header__navLink {
+        max-width: 89px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
