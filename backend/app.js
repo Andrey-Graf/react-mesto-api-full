@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 
 require('dotenv').config();
@@ -21,24 +22,23 @@ const NotFoundError = require('./errors/NotFoundError');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const allowedCors = [
-  'https://domainname.andreylebedev.nomoredomains.xyz',
-  'https://api.lebedev.students.nomoredomains.xyz',
-  'localhost:3000',
-];
-
-app.use(cors({
-  origin: allowedCors,
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  allowedHeaders: ['Authorization', 'Content-Type'],
-  credentials: true,
-}));
-
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+app.use(cors({
+  origin: [
+    'https://domainname.andreylebedev.nomoredomains.xyz',
+    'https://api.lebedev.students.nomoredomains.xyz',
+    'localhost:3000',
+  ],
+  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  allowedHeaders: ['Authorization', 'Content-Type'],
+  credentials: true,
+}));
+
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

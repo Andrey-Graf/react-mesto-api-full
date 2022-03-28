@@ -95,7 +95,6 @@ class Api {
 const api = new Api({
     url: 'https://api.lebedev.students.nomoredomains.xyz',
     headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
 });
