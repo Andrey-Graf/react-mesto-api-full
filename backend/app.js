@@ -34,7 +34,7 @@ app.use(cors({
     'http://domainname.andreylebedev.nomoredomains.xyz',
     'localhost:3000',
   ],
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
 }));
