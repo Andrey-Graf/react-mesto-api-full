@@ -13,10 +13,10 @@ const {
   validateUpdateAvatar,
 } = require('../middlewares/validators');
 
-userRouter.get('/users', getUsers);
-userRouter.get('/users/me', getCurrentUser);
-userRouter.get('/users/:userId', validateUserById, getUserById);
-userRouter.patch('/users/me', validateUpdateUser, updateUser);
-userRouter.patch('/users/me/avatar', validateUpdateAvatar, updateAvatar);
+userRouter.get('/', getUsers);
+userRouter.get('/me', getCurrentUser);
+userRouter.get('/:userId', validateUserById, getUserById);
+userRouter.patch('/me', validateUpdateUser, updateUser);
+userRouter.patch('/me/avatar', validateUpdateAvatar, updateAvatar);
 
 module.exports = userRouter;
