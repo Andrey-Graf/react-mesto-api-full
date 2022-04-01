@@ -232,6 +232,16 @@ function App() {
                 userEmail={userEmail}
             />
             <Switch>
+                <Route path="/sign-up">
+                    <Register
+                        onRegister={handleRegister}
+                    />
+                </Route>
+                <Route path="/sign-in">
+                    <Login
+                        onLogin={handleAuthorize}
+                    />
+                </Route>
                 <ProtectedRoute
                     exact path="/"
                     component={Main}
@@ -244,16 +254,6 @@ function App() {
                     onCardDelete={handleConfirmClick}
                     onCardLike={handleCardLike}
                 />
-                <Route path="/sign-up">
-                    <Register
-                        onRegister={handleRegister}
-                    />
-                </Route>
-                <Route path="/sign-in">
-                    <Login
-                        onLogin={handleAuthorize}
-                    />
-                </Route>
                 <Route>
                     {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
                 </Route>
