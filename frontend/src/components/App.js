@@ -202,9 +202,9 @@ function App() {
     }
 
     React.useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
         if (isLoggedIn) {
-            auth.checkToken(jwt)
+            const token = localStorage.getItem('jwt');
+            auth.checkToken(token)
                 .then((res) => {
                     setIsLoggedIn(true);
                     setUserEmail(res.data.email);
