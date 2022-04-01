@@ -58,7 +58,7 @@ app.post('/signup', validateSingUp, createUser);
 app.use(auth);
 
 app.use('/users', userRouter);
-app.use('/', cardRouter);
+app.use('/cards', cardRouter);
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Запршиваемый ресурс не найден'));
 });
