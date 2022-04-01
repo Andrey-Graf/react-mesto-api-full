@@ -99,14 +99,16 @@ function App() {
     }
 
     React.useEffect(() => {
-        api.getInitial().then((data) => {
-            const [userData, cardData] = data;
-            setCurrentUser(userData);
-            setCards(cardData);
-        }).catch((err) => {
-            console.log(err);
-        })
-    }, [])
+        if (isLoggedIn) {
+            api.getInitial().then((data) => {
+                const [userData, cardData] = data;
+                setCurrentUser(userData);
+                setCards(cardData);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+        }, [isLoggedIn])
 
     // Функци обновления данных пользователя.
     function handleUpdateUser(data) {
@@ -201,7 +203,7 @@ function App() {
 
     React.useEffect(() => {
         const jwt = localStorage.getItem('jwt');
-        if (jwt) {
+        if (isLoggedIn) {
             auth.checkToken(jwt)
                 .then((res) => {
                     setIsLoggedIn(true);
@@ -216,7 +218,7 @@ function App() {
                     }
                 });
         }
-    }, [history]);
+    }, [isLoggedIn, history]);
 
     function handleSignOut() {
         setIsLoggedIn(false);
