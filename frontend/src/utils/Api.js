@@ -12,24 +12,36 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    getUserInfo() {
+    getUserInfo(token) {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            }
         }).then(this._handleResponse);
     }
 
-    getCard() {
+    getCard(token) {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            }
         }).then(this._handleResponse);
     }
 
-    postCard(data) {
+    postCard(data, token) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -37,39 +49,55 @@ class Api {
         }).then(this._handleResponse);
     }
 
-    deleteCard(data) {
-        return fetch(`${this._url}/cards/${data._id}`, {
+    deleteCard(id, token) {
+        return fetch(`${this._url}/cards/${id}`, {
             method: 'DELETE',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            }
         }).then(this._handleResponse);
     }
 
-    changeLikeCardStatus(id, isLiked) {
+    changeLikeCardStatus(id, isLiked, token) {
         if (isLiked) {
-            return this.deleteLike(id);
+            return this.deleteLike(id, token);
         } else {
-            return this.setLike(id);
+            return this.setLike(id, token);
         }
     }
 
-    setLike(id) {
-        return fetch(`${this._url}/cards/likes/${id}`, {
+    setLike(id, token) {
+        return fetch(`${this._url}/cards/${id}/likes`, {
             method: 'PUT',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            }
         }).then(this._handleResponse);
     }
 
-    deleteLike(id) {
-        return fetch(`${this._url}/cards/likes/${id}`, {
+    deleteLike(id, token) {
+        return fetch(`${this._url}/cards/${id}/likes`, {
             method: 'DELETE',
-            headers: this._headers
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            }
         }).then(this._handleResponse);
     }
 
-    setUserInfo(data) {
+    setUserInfo(data, token) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
                 name: data.name,
                 about: data.about
@@ -77,24 +105,30 @@ class Api {
         }).then(this._handleResponse);
     }
 
-    setUserAvatar(data) {
+    setUserAvatar(data, token) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            credentials: 'include',
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
                 avatar: data.avatar
             })
         }).then(this._handleResponse);
     }
 
-    getInitial() {
-        return Promise.all([this.getUserInfo(), this.getCard()]);
+    getInitial(token) {
+        return Promise.all([this.getUserInfo(token), this.getCard(token)]);
     }
 }
 
 const api = new Api({
     url: 'https://api.lebedev.students.nomoredomains.xyz',
     headers: {
+        // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        Accept: 'application/json',
         'Content-Type': 'application/json',
     }
 });

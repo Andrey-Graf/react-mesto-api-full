@@ -32,7 +32,7 @@ app.use(cors({
   origin: [
     'https://domainname.andreylebedev.nomoredomains.xyz',
     'http://domainname.andreylebedev.nomoredomains.xyz',
-    'localhost:3000',
+    'http://localhost:3000',
   ],
   methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Authorization', 'Content-Type'],

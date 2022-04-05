@@ -35,6 +35,7 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [isSignUp, setIsSignUp] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState(null);
+    const [token, setToken] = React.useState('');
 
     const history = useHistory();
 
@@ -100,7 +101,8 @@ function App() {
 
     React.useEffect(() => {
         if (isLoggedIn) {
-            api.getInitial().then((data) => {
+            const token = localStorage.getItem('jwt');
+            api.getInitial(token).then((data) => {
                 const [userData, cardData] = data;
                 setCurrentUser(userData);
                 setCards(cardData);
@@ -112,7 +114,7 @@ function App() {
 
     // Функци обновления данных пользователя.
     function handleUpdateUser(data) {
-        api.setUserInfo(data).then((data) => {
+        api.setUserInfo(data, token).then((data) => {
             setCurrentUser(data);
             closeAllPopups();
         }).catch((err) => {
@@ -121,7 +123,7 @@ function App() {
     }
     // Функция обновить аватар.
     function handleUpdateAvatar(data) {
-        api.setUserAvatar(data).then((data) => {
+        api.setUserAvatar(data, token).then((data) => {
             setCurrentUser(data);
             closeAllPopups();
         }).catch((err) => {
@@ -138,10 +140,10 @@ function App() {
     // Функция like/disLike.
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+        api.changeLikeCardStatus(card._id, isLiked, token).then((newCard) => {
             setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
         }).catch((err) => {
             console.log(err);
@@ -151,9 +153,8 @@ function App() {
     //Функция удаления карточки.
     function handleCardDelete(evt) {
         evt.preventDefault();
-        api.deleteCard(cardDelet).then(() => {
-            const newCard = cards.filter((elem) => elem !== cardDelet);
-            setCards(newCard);
+        api.deleteCard(cardDelet._id, token).then(() => {
+            setCards((cards) => cards.filter((elem) => elem !== cardDelet));
             closeAllPopups();
         }).catch((err) => {
             console.log(err);
@@ -161,7 +162,7 @@ function App() {
     }
 
     function handleAddPlaceSubmit(data) {
-        api.postCard(data).then((newCard) => {
+        api.postCard(data, token).then((newCard) => {
             setCards([newCard, ...cards]);
             closeAllPopups();
         })
@@ -190,8 +191,10 @@ function App() {
             .then((res) => {
                 setIsLoggedIn(true);
                 localStorage.setItem('jwt', res.token);
+                setToken(res.token);
                 setUserEmail(data.email);
                 history.push('/');
+                return isLoggedIn;
             }).catch((err) => {
                 if (err.status === 400) {
                     console.log("400 — не передано одно из полей");
@@ -223,6 +226,7 @@ function App() {
     function handleSignOut() {
         setIsLoggedIn(false);
         localStorage.removeItem('jwt');
+        setToken('');
         history.push('/sign-in');
     }
 
@@ -246,8 +250,8 @@ function App() {
                 </Route>
                 <ProtectedRoute
                     exact path="/"
-                    component={Main}
                     loggedIn={isLoggedIn}
+                    component={Main}
                     cards={cards}
                     onEditAvatar={handleEditAvatarClick}
                     onEditProfile={handleEditProfileClick}
