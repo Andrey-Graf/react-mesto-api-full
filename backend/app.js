@@ -30,9 +30,10 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(cors({
   origin: [
-    'https://domainname.andreylebedev.nomoredomains.xyz',
-    'http://domainname.andreylebedev.nomoredomains.xyz',
+    // 'https://domainname.andreylebedev.nomoredomains.xyz',
+    // 'http://domainname.andreylebedev.nomoredomains.xyz',
     'http://localhost:3000',
+    'http://localhost:3001',
   ],
   methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Authorization', 'Content-Type'],
@@ -68,5 +69,5 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHander);
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  console.log(`App listening on port ${PORT}`);/* eslint-disable-line no-console */
 });

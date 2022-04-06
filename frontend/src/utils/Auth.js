@@ -46,7 +46,8 @@ class Auth {
 }
 
 const auth = new Auth({
-    url: 'https://api.lebedev.students.nomoredomains.xyz',
+    // url: 'https://api.lebedev.students.nomoredomains.xyz',
+    url: 'http://localhost:3000',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

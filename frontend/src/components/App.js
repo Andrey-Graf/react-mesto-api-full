@@ -39,6 +39,30 @@ function App() {
 
     const history = useHistory();
 
+    const tokenCheck = React.useCallback(() => {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            setToken(token);
+            auth.checkToken(token).then((res) => {
+                if (res) {
+                    setIsLoggedIn(true);
+                    setUserEmail(res.email);
+                    history.push('/');
+                }
+            }).catch((err) => {
+                if (err.status === 400) {
+                    console.log("400 — Токен не передан или передан не в том формате");
+                } else if (err.status === 401) {
+                    console.log("401 — Переданный токен некорректен");
+                }
+            });
+        }
+    }, [history]);
+
+    React.useEffect(() => {
+        tokenCheck();
+    }, [tokenCheck]);
+
     // Общая функция закрытия попап.
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false);
@@ -100,8 +124,8 @@ function App() {
     }
 
     React.useEffect(() => {
+        const token = localStorage.getItem('jwt');
         if (isLoggedIn) {
-            const token = localStorage.getItem('jwt');
             api.getInitial(token).then((data) => {
                 const [userData, cardData] = data;
                 setCurrentUser(userData);
@@ -110,7 +134,7 @@ function App() {
                 console.log(err);
             })
         }
-        }, [isLoggedIn])
+    }, [isLoggedIn])
 
     // Функци обновления данных пользователя.
     function handleUpdateUser(data) {
@@ -191,8 +215,8 @@ function App() {
             .then((res) => {
                 setIsLoggedIn(true);
                 localStorage.setItem('jwt', res.token);
-                setToken(res.token);
                 setUserEmail(data.email);
+                setToken(res.token);
                 history.push('/');
                 return isLoggedIn;
             }).catch((err) => {
@@ -203,25 +227,6 @@ function App() {
                 }
             })
     }
-
-    React.useEffect(() => {
-        if (isLoggedIn) {
-            const token = localStorage.getItem('jwt');
-            auth.checkToken(token)
-                .then((res) => {
-                    setIsLoggedIn(true);
-                    setUserEmail(res.data.email);
-                    history.push('/');
-                })
-                .catch((err) => {
-                    if (err.status === 400) {
-                        console.log("400 — Токен не передан или передан не в том формате");
-                    } else if (err.status === 401) {
-                        console.log("401 — Переданный токен некорректен");
-                    }
-                });
-        }
-    }, [isLoggedIn, history]);
 
     function handleSignOut() {
         setIsLoggedIn(false);

@@ -125,7 +125,8 @@ class Api {
 }
 
 const api = new Api({
-    url: 'https://api.lebedev.students.nomoredomains.xyz',
+    // url: 'https://api.lebedev.students.nomoredomains.xyz',
+    url: 'http://localhost:3000',
     headers: {
         // authorization: `Bearer ${localStorage.getItem('jwt')}`,
         Accept: 'application/json',
